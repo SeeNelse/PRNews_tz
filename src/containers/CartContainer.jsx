@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actionCreators from '../actions/Actions';
 import { bindActionCreators, compose } from 'redux';
-import { Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link, withRouter } from 'react-router-dom'
 import PaymentContainer from '../containers/PaymentContainer';
 
-import { CartItem } from '../components/CartItem';
+import { CartItem } from '../components/cart/CartItem';
+import { Price } from '../components/cart/Price';
 
 import Typography from '@material-ui/core/Typography';
 import Badge from '@material-ui/core/Badge';
@@ -16,7 +17,7 @@ import Button from '@material-ui/core/Button';
 const mapStateToProps = function(state){
   return {
     cart: state.app.cart,
-    totalPrice: state.app.totalPrice,
+    prices: state.app.prices,
   }
 }
 const mapDispatchToProps = function (dispatch) {
@@ -24,6 +25,7 @@ const mapDispatchToProps = function (dispatch) {
     DeteleFromCart: actionCreators.DeteleFromCart,
   }, dispatch)
 }
+
 const styles = {
   cartWrapper: {
     padding: '15px 0 20px',
@@ -31,23 +33,18 @@ const styles = {
   head: {
     marginBottom: 10,
   },
-  total: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: '0 15px 20px',
-    fontSize: '21px', 
-  },
   link: {
     textDecoration: 'none'
+  },
+  btnToPay: {
+    marginTop: '15px'
   }
 };
 
 
-
 class CartContainer extends Component {
   render() {
-    const { cart, classes, DeteleFromCart, totalPrice } = this.props;
+    const { cart, classes, DeteleFromCart, prices } = this.props;
     return (
       <Paper className={ classes.cartWrapper }>
         <Badge badgeContent={ cart.length } className={ classes.head } color="primary">
@@ -60,10 +57,17 @@ class CartContainer extends Component {
         }
         { cart.length ? 
           <div>
-            <Typography variant="body1" className={ classes.total }>Total: <span>{ totalPrice }$</span></Typography>
-            <Link className={ classes.link } to='/payment'>
-              <Button variant="contained" size="medium" color="primary">Proceed to payment</Button>
-            </Link>
+            <Price prices={ prices } />
+            {
+              this.props.location.pathname === '/' ?
+              <div className={ classes.btnToPay }>
+                <Link className={ classes.link } to='/payment'>
+                  <Button variant="contained" size="medium" color="primary">Proceed to payment</Button>
+                </Link>
+              </div> :
+              false
+            }
+            
           </div> :
           <Typography variant="h6">Cart is empty</Typography>
         }
@@ -72,4 +76,4 @@ class CartContainer extends Component {
   }
 }
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(CartContainer))
+export default withRouter(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(CartContainer)))

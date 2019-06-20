@@ -41,10 +41,15 @@ const defaultState = {
     },
   ],
   cart: [],
-  totalPrice: 0,
+  prices: {
+    subTotalPrice: 0,
+    percent: 0,
+    vat: 0,
+    total: 0,
+  },
   modalState: false,
   paymentTypes: ['PayPal', 'Credit Card', 'Belance'],
-  selectedPaymentType: '',
+  accounts: [],
 };
 
 const appReducer = (state = defaultState, action) => {
@@ -57,18 +62,39 @@ const appReducer = (state = defaultState, action) => {
     }
 
     case Types.ADD_TO_CART: {
+      let subTotal = state.prices.subTotalPrice + state.goodsList[action.payload].price;
+      let percent = subTotal / 100;
+      let vat = subTotal * 21 / 100;
+      let total = subTotal + percent + vat;
+      let totalResult = String(total).match(/\./) ? parseFloat(total).toFixed(2) : total;
       return {
         ...state,
         cart: [...state.cart, state.goodsList[action.payload]],
-        totalPrice: state.totalPrice + state.goodsList[action.payload].price
+        prices: {
+          subTotalPrice: subTotal,
+          percent: subTotal / 100,
+          vat: subTotal * 21 / 100,
+          total: totalResult
+        },
       }
     }
 
     case Types.DELETE_FROM_CART: {
+      let subTotal = state.prices.subTotalPrice - state.cart[action.payload].price;
+      let percent = subTotal / 100;
+      let vat = subTotal * 21 / 100;
+      let total = subTotal + percent + vat;
+      let totalResult = String(total).match(/\./) ? parseFloat(total).toFixed(2) : total;
       return {
         ...state,
         cart: state.cart.filter((item, index) => index !== action.payload),
-        totalPrice: state.totalPrice - state.cart[action.payload].price
+        prices: {
+          subTotalPrice: subTotal,
+          percent: subTotal / 100,
+          vat: subTotal * 21 / 100,
+          total: totalResult
+        }
+        
       }
     }
 
@@ -85,10 +111,10 @@ const appReducer = (state = defaultState, action) => {
       }
     }
 
-    case Types.SELECT_PAYMENT_TYPE: {
+    case Types.SEND_ACCOUNT_DATA: {
       return {
         ...state,
-        selectedPaymentType: action.payload
+        accounts: [...state.accounts, action.payload],
       }
     }
 

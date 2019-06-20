@@ -18,7 +18,7 @@ export const CloseAccountModal = () => ({
   type: Types.CLOSE_ACCOUNT_MODAL,
 });
 
-export const SelectPaymentType = name => ({
-  type: Types.SELECT_PAYMENT_TYPE,
-  payload: name
+export const SendAccountData = accountData => ({
+  type: Types.SEND_ACCOUNT_DATA,
+  payload: accountData
 });

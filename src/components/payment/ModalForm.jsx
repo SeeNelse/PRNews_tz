@@ -2,6 +2,8 @@ import React from 'react';
 import { Field, reduxForm, propTypes, Form } from 'redux-form';
 import { createNumberMask, createTextMask } from 'redux-form-input-masks';
 
+import ModalInputs from './ModalInputs';
+
 import TextField from '@material-ui/core/TextField';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -90,7 +92,7 @@ const cardCvvTextField = ({ input, label, meta: { touched, error, warning }, ...
   </div>
 );
 
-const paymentSlectField = ({ input, label, meta: { touched, error, warning }, children, ...custom}) => (
+const paymentSelectField = ({ input, label, meta: { touched, error, warning }, children, ...custom}) => (
   <div>
     <TextField
       id="outlined-select-currency"
@@ -119,26 +121,6 @@ const cvvMask = createTextMask({
 const dataMask = createTextMask({
   pattern: '99/99',
 });
-
-const styles = makeStyles(theme => ({
-  close: {
-    position: 'absolute',
-    top: '5px',
-    right: '5px',
-    cursor: 'pointer',
-    margin: '0',
-    minWidth: '0',
-    padding: '3px',
-  },
-  textField: {
-    width: '100%'
-  },
-  cardWrapper: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  }
-}));
 
 const validate = values => {
   const errors = {}
@@ -183,13 +165,40 @@ const validate = values => {
   return errors;
 }
 
+const styles = makeStyles(theme => ({
+  close: {
+    position: 'absolute',
+    top: '5px',
+    right: '5px',
+    cursor: 'pointer',
+    margin: '0',
+    minWidth: '0',
+    padding: '3px',
+  },
+  textField: {
+    width: '100%'
+  },
+  cardWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  btnWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: '15px'
+  }
+}));
+
 
 
 let ModalForm = (props) => {
-  const { CloseAccountModal, handleSubmit, paymentTypes, SelectPaymentType, selectedPaymentType, pristine } = props
+  const { CloseAccountModal, handleSubmit, paymentTypes, pristine, SendAccountData } = props
   const classes = styles();
   return <Form onSubmit={handleSubmit(data => {
     console.log(data);
+    SendAccountData(data);
   })}>{
     <React.Fragment>
       <Button className={ classes.close } onClick={ () => CloseAccountModal() }>
@@ -204,19 +213,19 @@ let ModalForm = (props) => {
       <Field
         name="username"
         type="text"
-        className={ classes.textField }
+        fullWidth
         component={ nameTextField }
       />
       <Field
         name="address"
         type="text"
-        className={ classes.textField }
+        fullWidth
         component={ addressTextField }
       />
       <Field
         name="paymentMethod"
-        component={paymentSlectField}
-        className={ classes.textField }
+        fullWidth
+        component={paymentSelectField}
       >
         {
           paymentTypes.map((el, index) => {
@@ -247,8 +256,10 @@ let ModalForm = (props) => {
           {...cvvMask}
         />
       </div>
-      <Button onClick={ () => CloseAccountModal() }>Close</Button>
-      <Button type="submit" variant="contained" color="primary" disabled={pristine} >Save</Button>
+      <div className={ classes.btnWrapper }>
+        <Button onClick={ () => CloseAccountModal() }>Close</Button>
+        <Button type="submit" variant="contained" color="primary"  disabled={pristine}>Save</Button>
+      </div>
     </React.Fragment>
   }</Form>
 }

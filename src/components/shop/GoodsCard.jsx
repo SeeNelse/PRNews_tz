@@ -20,7 +20,7 @@ const styles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: '8px 20px'
+    padding: '8px 20px 15px',
   }
 }));
 
