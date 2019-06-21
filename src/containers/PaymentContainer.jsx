@@ -2,18 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import { Redirect, Link } from "react-router-dom";
+import {reset} from 'redux-form';
 
 import * as actionCreators from '../actions/Actions';
-import ModalForm from '../components/payment/ModalForm';
-import {Profile} from '../components/payment/Profile';
+import { CustomerAccount } from '../components/payment/CustomerAccount';
+import { PaymentSelection } from '../components/payment/PaymentSelection';
 
-//materialUI
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
-import Modal from '@material-ui/core/Modal';
+import Box from '@material-ui/core/Box';
 import KeyboardBackspace from '@material-ui/icons/KeyboardBackspace';
 
 
@@ -39,22 +37,6 @@ const styles = {
     borderBottom: '1px solid #000',
     color: '#000000'
   },
-  accountList: {
-    padding: '15px',
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    marginBottom: '15px'
-  },
-  popupStyle: {
-    top: '50%',
-    left: '50%',
-    position: 'absolute',
-    transform: 'translateX(-50%) translateY(-50%)',
-    background: '#fff',
-    padding: '25px',
-  },
   backLink: {
     color: '#000000',
     textDecoration: 'none',
@@ -71,9 +53,15 @@ const styles = {
 const mapStateToProps = function(state){
   return {
     cart: state.app.cart,
-    modalState: state.app.modalState,
+    profileModalState: state.app.profileModalState,
     paymentTypes: state.app.paymentTypes,
     selectedPaymentType: state.app.selectedPaymentType,
+    accounts: state.app.accounts,
+    editAccountNumber: state.app.editAccountNumber,
+    paymentStep: state.app.paymentStep,
+    currentAccount: state.app.currentAccount,
+    finalModalState: state.app.finalModalState,
+    prices: state.app.prices
   }
 }
 const mapDispatchToProps = function (dispatch) {
@@ -81,6 +69,12 @@ const mapDispatchToProps = function (dispatch) {
     OpenAccountModal: actionCreators.OpenAccountModal,
     CloseAccountModal: actionCreators.CloseAccountModal,
     SendAccountData: actionCreators.SendAccountData,
+    EditAccount: actionCreators.EditAccount,
+    DeleteAccount: actionCreators.DeleteAccount,
+    SelectAccount: actionCreators.SelectAccount,
+    ChangePaymentStep: actionCreators.ChangePaymentStep,
+    SelectPayment: actionCreators.SelectPayment,
+    OpanFinalModal: actionCreators.OpanFinalModal,
   }, dispatch)
 }
 
@@ -91,44 +85,75 @@ class PaymentContainer extends Component {
   }
 
   render() {
-    const { classes, OpenAccountModal, CloseAccountModal, modalState, paymentTypes, selectedPaymentType, SendAccountData } = this.props;
+    const { 
+      classes,
+      cart,
+      profileModalState,
+      paymentTypes,
+      paymentStep,
+      selectedPaymentType,
+      accounts,
+      editAccountNumber,
+      currentAccount,
+      finalModalState,
+      prices,
+      OpenAccountModal,
+      CloseAccountModal,
+      SendAccountData,
+      EditAccount,
+      DeleteAccount,
+      SelectAccount,
+      ChangePaymentStep,
+      SelectPayment,
+      OpanFinalModal,
+    } = this.props;
+
     return (
-      // <div>
-      //   {cart.length ?
+      <React.Fragment>
+        {cart.length ?
           <Paper className={ classes.wrapper }>
+
             <Typography variant="subtitle1">
-              <Link to='/' className={ classes.backLink }><KeyboardBackspace/> Back to shop</Link>
+            <Link to='/' className={ classes.backLink }><KeyboardBackspace/> Back to shop</Link>
             </Typography>
             <ul className={ classes.progress }>
-              <li className={ classes.progress_item_active }>01 CUSTOMER ACCOUNT</li>
-              <li className={ classes.progress_item }>02 PAYMENT SELECTION</li>
+              <li className={ paymentStep === 1 ? classes.progress_item_active : classes.progress_item }>01 CUSTOMER ACCOUNT</li>
+              <li className={ paymentStep === 2 ? classes.progress_item_active : classes.progress_item }>02 PAYMENT SELECTION</li>
             </ul>
-            <Typography variant="h4">Customer Account</Typography>
-            <div className={ classes.accountList }>
-              <Profile OpenAccountModal={ OpenAccountModal } />
-            </div>
-            <Fab color="primary" aria-label="Add" onClick={ () => OpenAccountModal() }>
-              <AddIcon/>
-            </Fab>
-            <Modal
-              aria-labelledby="simple-modal-title"
-              aria-describedby="simple-modal-description"
-              open={modalState}
-              onClose={() => CloseAccountModal()}
-            >
-              <div className={ classes.popupStyle }>
-                <ModalForm 
-                  CloseAccountModal={ CloseAccountModal } 
+            {
+            paymentStep === 1 ?
+              <Box>
+                <Typography variant="h4">Customer Account</Typography>
+                <CustomerAccount  
+                  profileModalState={ profileModalState }
                   paymentTypes={ paymentTypes }
                   selectedPaymentType={ selectedPaymentType }
+                  accounts={ accounts }
+                  editAccountNumber={ editAccountNumber }
+                  OpenAccountModal={ OpenAccountModal }
+                  CloseAccountModal={ CloseAccountModal }
                   SendAccountData={ SendAccountData }
+                  EditAccount={ EditAccount }
+                  DeleteAccount={ DeleteAccount }
+                  SelectAccount={ SelectAccount }
+                  SelectPayment={ SelectPayment }
+                  ChangePaymentStep={ ChangePaymentStep }
+                  currentAccount={ currentAccount }
                 />
-              </div>
-            </Modal>
+              </Box> :
+              <PaymentSelection 
+                cart={ cart }
+                prices={ prices }
+                account={ accounts[currentAccount] } 
+                finalModalState={ finalModalState }
+                ChangePaymentStep={ ChangePaymentStep } 
+                SelectPayment={ SelectPayment }  
+                OpanFinalModal={ OpanFinalModal }         
+              />
+            }
           </Paper>
-        //   :
-        // <Redirect to='/' />}
-      // </div>
+        : <Redirect to='/' />}
+      </React.Fragment>
     );
   }
 }

@@ -12,8 +12,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 
-const reduxStore = configureStore();
 
+const reduxStore = configureStore();
 
 function App() {
   return (

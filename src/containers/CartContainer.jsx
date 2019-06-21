@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import * as actionCreators from '../actions/Actions';
 import { bindActionCreators, compose } from 'redux';
 import { BrowserRouter as Router, Route, Link, withRouter } from 'react-router-dom'
-import PaymentContainer from '../containers/PaymentContainer';
 
 import { CartItem } from '../components/cart/CartItem';
 import { Price } from '../components/cart/Price';
@@ -13,6 +12,7 @@ import Badge from '@material-ui/core/Badge';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+
 
 const mapStateToProps = function(state){
   return {

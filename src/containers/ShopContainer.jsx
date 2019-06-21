@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as actionCreators from '../actions/Actions';
 import { bindActionCreators, compose } from 'redux';
 
+import * as actionCreators from '../actions/Actions';
 import { GoodsCard } from '../components/shop/GoodsCard';
-//materialUI
+
 import Grid from '@material-ui/core/Grid';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
+
 
 const styles = makeStyles(theme => ({
   test: {
