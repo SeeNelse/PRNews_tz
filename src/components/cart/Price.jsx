@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: '0 15px',
-    fontSize: '16px',
+    fontSize: '14px',
     marginBottom: '5px',
     '&:last-child': {
       marginBottom: '0'

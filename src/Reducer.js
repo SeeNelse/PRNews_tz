@@ -117,7 +117,7 @@ const appReducer = (state = defaultState, action) => {
     }
 
     case Types.SEND_ACCOUNT_DATA: {
-      if (typeof action.payload.index == 'number') {
+      if (typeof action.payload.index === 'number') {
         let accountsTemp = state.accounts;
         accountsTemp[action.payload.index] = action.payload.account;
         return {
@@ -158,7 +158,7 @@ const appReducer = (state = defaultState, action) => {
     case Types.CHANGE_PAYMENT_STEP: {
       return {
         ...state,
-        paymentStep: state.paymentStep == 1 ? 2 : 1
+        paymentStep: state.paymentStep === 1 ? 2 : 1
       }
     }
 

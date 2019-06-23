@@ -3,7 +3,7 @@ import React, {useEffect} from 'react';
 import { Profile } from './Profile';
 import ModalForm from './ModalForm';
 
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
@@ -20,9 +20,10 @@ const useStyles = makeStyles(theme => ({
     transform: 'translateX(-50%) translateY(-50%)',
     background: '#fff',
     padding: '25px',
+    width: '80%'
   },
   accountList: {
-    padding: '15px',
+    padding: '10px',
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',

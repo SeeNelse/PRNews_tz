@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actionCreators from '../actions/Actions';
-import { bindActionCreators, compose } from 'redux';
-import { BrowserRouter as Router, Route, Link, withRouter } from 'react-router-dom'
+import { bindActionCreators } from 'redux';
+import { BrowserRouter as Link, withRouter } from 'react-router-dom'
 
 import { CartItem } from '../components/cart/CartItem';
 import { Price } from '../components/cart/Price';
@@ -10,7 +10,7 @@ import { Price } from '../components/cart/Price';
 import Typography from '@material-ui/core/Typography';
 import Badge from '@material-ui/core/Badge';
 import Paper from '@material-ui/core/Paper';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import {  withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
 

@@ -28,7 +28,7 @@ const styles = makeStyles(theme => ({
 export const GoodsCard = ({productInfo, cart, addToCart, index}) => {
   const classes = styles();
   return(
-    <Grid item xs={4}>
+    <Grid item md={4} sm={6} xs={12}>
       <Card className={ classes.card }>
         <CardMedia
           className={ classes.media }

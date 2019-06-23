@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators, compose } from 'redux';
+import { bindActionCreators } from 'redux';
 import { Redirect, Link } from "react-router-dom";
-import {reset} from 'redux-form';
 
 import * as actionCreators from '../actions/Actions';
 import { CustomerAccount } from '../components/payment/CustomerAccount';
 import { PaymentSelection } from '../components/payment/PaymentSelection';
 
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
