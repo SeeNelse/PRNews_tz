@@ -9,7 +9,6 @@ import { cardDataTextField } from './modalForm_components/cardDataTextField';
 import { cardCvvTextField } from './modalForm_components/cardCvvTextField';
 import { paymentSelectField } from './modalForm_components/paymentSelectField';
 
-import TextField from '@material-ui/core/TextField';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -93,7 +92,16 @@ const styles = makeStyles(theme => ({
   cardWrapper: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column',
+      '& div': {
+        width: '100% !important',
+        '&:first-child': {
+          width: '100%',
+        },
+      }
+    },
   },
   btnWrapper: {
     display: 'flex',
