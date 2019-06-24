@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import { CompleteOrder } from './CompleteOrder';
 
@@ -8,7 +8,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import Modal from '@material-ui/core/Modal';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import KeyboardBackspace from '@material-ui/icons/KeyboardBackspace';
 
 
@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
 
 export const PaymentSelection = ({ account, cart, prices, finalModalState, ChangePaymentStep, SelectPayment, OpanFinalModal }) => {
   const classes = useStyles();
-  useEffect((account, paymentMethod) => {
+  useEffect(() => {
     SelectPayment(account.paymentMethod);
   }, []);
   const [value, setValue] = React.useState(account.paymentMethod);
