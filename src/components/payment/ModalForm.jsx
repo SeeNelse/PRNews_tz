@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
-import { Field, reduxForm, Form } from 'redux-form';
-import { createTextMask } from 'redux-form-input-masks';
+import React, {useState, useEffect} from 'react';
+import { Field, reduxForm, Form, formValueSelector } from 'redux-form';
+import { createNumberMask, createTextMask } from 'redux-form-input-masks';
 
 import { nameTextField } from './modalForm_components/nameTextField';
 import { addressTextField } from './modalForm_components/addressTextField';
@@ -9,7 +9,8 @@ import { cardDataTextField } from './modalForm_components/cardDataTextField';
 import { cardCvvTextField } from './modalForm_components/cardCvvTextField';
 import { paymentSelectField } from './modalForm_components/paymentSelectField';
 
-import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Close from '@material-ui/icons/Close';
@@ -92,16 +93,7 @@ const styles = makeStyles(theme => ({
   cardWrapper: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    [theme.breakpoints.down('xs')]: {
-      flexDirection: 'column',
-      '& div': {
-        width: '100% !important',
-        '&:first-child': {
-          width: '100%',
-        },
-      }
-    },
+    justifyContent: 'space-between'
   },
   btnWrapper: {
     display: 'flex',
@@ -117,7 +109,7 @@ let ModalForm = (props) => {
   const { handleSubmit, paymentTypes, editAccountNumber, accounts, SendAccountData, CloseAccountModal } = props
   const classes = styles();
 
-  useEffect((props, accounts, editAccountNumber) => {
+  useEffect(() => {
     props.initialize(accounts[editAccountNumber]);
   }, []);
 
