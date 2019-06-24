@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actionCreators from '../actions/Actions';
 import { bindActionCreators } from 'redux';
-import { BrowserRouter as Link, withRouter } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link, withRouter } from 'react-router-dom'
 
 import { CartItem } from '../components/cart/CartItem';
 import { Price } from '../components/cart/Price';
